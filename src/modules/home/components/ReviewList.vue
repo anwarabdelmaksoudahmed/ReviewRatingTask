@@ -1,7 +1,7 @@
 <template>
-  <div class="grid gap-4">
+  <div v-if="filteredReviews.length > 0" class="grid gap-4">
     <div
-      v-for="review in reviews"
+      v-for="review in paginatedReviews"
       :key="review.id"
       class="bg-white p-4 rounded shadow"
     >
@@ -21,11 +21,34 @@
       </p>
       <p>{{ review.text }}</p>
     </div>
+    <Pagination
+      :total="filteredReviews.length"
+      :per-page="5"
+      @changePage="changePage"
+    />
   </div>
+  <div v-else class="text-center text-gray-600">No reviews available</div>
 </template>
 
 <script setup lang="ts">
-const props = defineProps({
-  reviews: Array,
+import { computed, ref } from "vue";
+import { useReviewStore } from "../../../store/reviewStore";
+import Pagination from "./Pagination.vue";
+
+const store = useReviewStore();
+const currentPage = ref(1);
+
+const filteredReviews = computed(() => {
+  return store.filteredReviews || [];
 });
+
+const paginatedReviews = computed(() => {
+  const start = (currentPage.value - 1) * 5;
+  const end = start + 5;
+  return filteredReviews.value.slice(start, end);
+});
+
+const changePage = (page: number) => {
+  currentPage.value = page;
+};
 </script>

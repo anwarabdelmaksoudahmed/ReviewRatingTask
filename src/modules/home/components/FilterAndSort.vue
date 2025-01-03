@@ -4,12 +4,7 @@
       <label for="sort" class="block text-sm font-medium text-gray-700"
         >Sort By:</label
       >
-      <select
-        v-model="localSortOption"
-        id="sort"
-        class="border rounded w-full p-2"
-        @change="emitFilterSort"
-      >
+      <select v-model="sortOption" id="sort" class="border rounded w-full p-2">
         <option value="newest">Newest</option>
         <option value="oldest">Oldest</option>
         <option value="highest">Highest Rating</option>
@@ -21,10 +16,9 @@
         >Filter By:</label
       >
       <select
-        v-model="localFilterOption"
+        v-model="filterOption"
         id="filter"
         class="border rounded w-full p-2"
-        @change="emitFilterSort"
       >
         <option value="all">All Ratings</option>
         <option v-for="n in 5" :key="n" :value="n">{{ n }} Star(s)</option>
@@ -34,22 +28,15 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, watch } from "vue";
+import { useReviewStore } from "../../../store/reviewStore";
 
-const props = defineProps({
-  filterOption: String,
-  sortOption: String,
+const store = useReviewStore();
+const sortOption = ref("newest");
+const filterOption = ref("all");
+
+// Watch for changes in filterOption and sortOption to update reviews
+watch([filterOption, sortOption], () => {
+  store.updateFilteredReviews(filterOption.value, sortOption.value);
 });
-
-const emit = defineEmits(["updateFilterSort"]);
-
-const localFilterOption = ref(props.filterOption || "all");
-const localSortOption = ref(props.sortOption || "newest");
-
-const emitFilterSort = () => {
-  emit("updateFilterSort", {
-    filter: localFilterOption.value,
-    sort: localSortOption.value,
-  });
-};
 </script>

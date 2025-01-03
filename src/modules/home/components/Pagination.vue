@@ -13,13 +13,13 @@
 </template>
 
 <script setup>
-import { computed, PropType } from "vue";
+import { computed, defineProps } from "vue";
 
 const props = defineProps({
   total: { type: Number, required: true },
   perPage: { type: Number, required: true },
+  currentPage: { type: Number, required: true },
 });
+
 const totalPages = computed(() => Math.ceil(props.total / props.perPage));
 </script>
-
-<style></style>
