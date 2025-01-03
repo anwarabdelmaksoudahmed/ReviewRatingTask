@@ -1,0 +1,15 @@
+{
+  "Home": "Home",
+  "appTitle": "Reviews and Ratings",
+  "yourName": "Your Name",
+  "yourReview": "Your Review",
+  "submitReview": "Submit Review",
+  "sortBy": "Sort By:",
+  "filterBy": "Filter By:",
+  "newest": "Newest",
+  "oldest": "Oldest",
+  "highestRating": "Highest Rating",
+  "lowestRating": "Lowest Rating",
+  "allRatings": "All Ratings",
+  "stars": "{count} Star(s)"
+}
