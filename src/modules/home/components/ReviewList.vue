@@ -24,6 +24,7 @@
     <Pagination
       :total="filteredReviews.length"
       :per-page="5"
+      :currentPage="currentPage"
       @changePage="changePage"
     />
   </div>
